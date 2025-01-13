@@ -56,7 +56,6 @@ class UserServiceImpl : UserService {
                 userId = row[UserTable.id],
                 email = row[UserTable.email],
                 createdAt = row[UserTable.createdAt].toString(),
-                updatedAt = row[UserTable.updatedAt].toString()
             )
         }
     }

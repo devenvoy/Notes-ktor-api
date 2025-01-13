@@ -9,5 +9,5 @@ object UserTable : Table("user_table") {
     val email = varchar("email", 255)
     val password = varchar("password", 255)
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
-    val updatedAt = datetime("updated_at").clientDefault { LocalDateTime.now() }
+    override val primaryKey = PrimaryKey(id)
 }

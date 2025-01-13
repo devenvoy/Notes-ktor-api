@@ -1,6 +1,6 @@
 # Notes-CMP-ktor
 
-This project was created using the [Ktor Project Generator](https://start.ktor.io).
+- [API Documentation](http://0.0.0.0:8080/openapi)
 
 Here are some useful links to get you started:
 

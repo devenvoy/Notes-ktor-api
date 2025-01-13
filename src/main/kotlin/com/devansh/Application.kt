@@ -1,10 +1,15 @@
 package com.devansh
 
 import com.devansh.db.DatabaseFactory
+import com.devansh.repository.NoteRepository
+import com.devansh.repository.NoteRepositoryImpl
 import com.devansh.repository.UserRepository
 import com.devansh.repository.UserRepositoryImpl
 import com.devansh.routes.authRoutes
+import com.devansh.routes.noteRoutes
 import com.devansh.security.configureSecurity
+import com.devansh.services.NoteService
+import com.devansh.services.NoteServiceImpl
 import com.devansh.services.UserService
 import com.devansh.services.UserServiceImpl
 import io.ktor.serialization.jackson.*
@@ -25,6 +30,8 @@ fun main() {
 val modules = module {
     single<UserService> { UserServiceImpl() }
     single<UserRepository> { UserRepositoryImpl(get()) }
+    single<NoteService> { NoteServiceImpl() }
+    single<NoteRepository> { NoteRepositoryImpl(get()) }
 }
 
 fun Application.module() {
@@ -41,9 +48,10 @@ fun Application.module() {
         jackson()
     }
 
-//    configureHTTP()
+    configureHTTP()
     configureMonitoring()
     configureSecurity()
     authRoutes()
+    noteRoutes()
 }
 

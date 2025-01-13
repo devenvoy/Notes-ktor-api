@@ -1,0 +1,422 @@
+openapi: 3.0.0
+info:
+  title: Notes-api
+  version: 1.0.0
+servers:
+  - url: http://0.0.0.0:8080
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: test1@gmail.com
+                password: dev123456
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: true
+                statusCode: 200
+                message: Login successful
+                data:
+                  authToken: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJub3Rlcy1jb21wb3NlLXVzZXIiLCJpc3MiOiJub3Rlcy1jb21wb3NlIiwiaWQiOiJiMDJjOTZhMC0xY2I0LTQzMTgtYjI5Yi0yYjA0OTQ2ZjM2NGQifQ.3lu6omuVR-RsZwKoDZd9OQxQlHfKJi6jqppntWvopJA
+                  user:
+                    userId: b02c96a0-1cb4-4318-b29b-2b04946f364d
+                    email: test1@gmail.com
+                    createdAt: '2025-01-14T02:13:41.133971'
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: false
+                statusCode: 401
+                message: Incorrect password
+                data: null
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: false
+                statusCode: 404
+                message: User not found
+                data: null
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: test1@gmail.com
+                password: dev123456
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: true
+                statusCode: 200
+                message: User registered successfully
+                data:
+                  authToken: >-
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJub3Rlcy1jb21wb3NlLXVzZXIiLCJpc3MiOiJub3Rlcy1jb21wb3NlIiwiaWQiOiJiMDJjOTZhMC0xY2I0LTQzMTgtYjI5Yi0yYjA0OTQ2ZjM2NGQifQ.3lu6omuVR-RsZwKoDZd9OQxQlHfKJi6jqppntWvopJA
+                  user:
+                    userId: b02c96a0-1cb4-4318-b29b-2b04946f364d
+                    email: test1@gmail.com
+                    createdAt: '2025-01-14T02:13:41.133971'
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: false
+                statusCode: 400
+                message: Email already registered
+                data: null
+  /notes/get-all:
+    get:
+      tags:
+        - notes
+      summary: get-notes
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: empty response
+                  value:
+                    isSuccessful: true
+                    statusCode: 200
+                    message: null
+                    data:
+                      total: 0
+                      notes: [ ]
+                example-1:
+                  summary: success
+                  value:
+                    isSuccessful: true
+                    statusCode: 200
+                    message: null
+                    data:
+                      total: 2
+                      notes:
+                        - id: 2
+                          title: Second Note
+                          content: This is the second note content.
+                          category: null
+                          modifiedAt: '2025-01-14T02:24:30.661817'
+                        - id: 1
+                          title: First Note
+                          content: This is the first note content.
+                          category: null
+                          modifiedAt: '2025-01-14T02:24:30.643490'
+  /notes/insert:
+    post:
+      tags:
+        - notes
+      summary: insert-notes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - id: 0
+                  title: First Note
+                  content: This is the first note content.
+                  category: null
+                  modifiedAt: null
+                - id: 0
+                  title: Second Note
+                  content: This is the second note content.
+                  category: null
+                  modifiedAt: null
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer <auth_token>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '201':
+          description: Created
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: true
+                statusCode: 201
+                message: Notes inserted successfully
+                data: null
+  /notes/update:
+    put:
+      tags:
+        - notes
+      summary: update note
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 2
+                title: Second Note
+                content: This is the second note content updated.
+                category: test
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: true
+                statusCode: 200
+                message: Note updated successfully
+                data: null
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: false
+                statusCode: 404
+                message: Note not found or unauthorized
+                data: null
+  /notes/delete/{id}:
+    delete:
+      tags:
+        - notes
+      summary: delete note
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: true
+                statusCode: 200
+                message: Note deleted successfully
+                data: null
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            transfer-encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                isSuccessful: false
+                statusCode: 404
+                message: Note not found or unauthorized
+                data: null
