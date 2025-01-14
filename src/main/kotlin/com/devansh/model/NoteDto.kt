@@ -8,5 +8,6 @@ data class NoteDto(
     val title: String,
     val content: String,
     val category: String? = null,
+    val colorRes: Long? = null,
     val modifiedAt: String? = null,
 )

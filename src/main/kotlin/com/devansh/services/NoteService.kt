@@ -73,6 +73,7 @@ class NoteServiceImpl : NoteService {
                     it[title] = note.title
                     it[content] = note.content
                     it[category] = note.category
+                    it[colorres] = note.colorRes
                 }
             }
         }
@@ -91,6 +92,7 @@ class NoteServiceImpl : NoteService {
                 it[title] = noteDto.title
                 it[content] = noteDto.content
                 it[category] = noteDto.category
+                it[colorres] = noteDto.colorRes
                 it[modifiedAt] = LocalDateTime.now()
             }
         }
@@ -109,6 +111,7 @@ class NoteServiceImpl : NoteService {
             title = row[NoteTable.title],
             content = row[NoteTable.content],
             category = row[NoteTable.category],
+            colorRes = row[NoteTable.colorres],
             modifiedAt = row[NoteTable.modifiedAt].toString()
         )
     }

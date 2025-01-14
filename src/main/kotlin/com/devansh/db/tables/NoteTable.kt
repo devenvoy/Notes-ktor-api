@@ -10,6 +10,7 @@ object NoteTable : Table(name = "note_table") {
     val title = varchar("title", 255)
     val content = text("content")
     val category = varchar("category", 255).nullable()
+    val colorres = long(name = "color_res").nullable()
     val modifiedAt = datetime("modified_at").clientDefault { LocalDateTime.now() }
     override val primaryKey = PrimaryKey(note_id)
 }
