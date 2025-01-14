@@ -4,7 +4,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
-object UserTable : Table("user_table") {
+object UserTable : Table("note_user_table") {
     val id = varchar("id",255)
     val email = varchar("email", 255)
     val password = varchar("password", 255)
