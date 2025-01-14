@@ -12,4 +12,5 @@ FROM openjdk:17
 EXPOSE 8080
 RUN mkdir -p /app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/link-saver_server.jar
+COPY openapi /openapi
 ENTRYPOINT ["java", "-jar", "/app/link-saver_server.jar"]
