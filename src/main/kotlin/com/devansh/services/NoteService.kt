@@ -2,7 +2,6 @@ package com.devansh.services
 
 import com.devansh.db.DatabaseFactory.dbQuery
 import com.devansh.db.tables.NoteTable
-import com.devansh.db.tables.UserTable
 import com.devansh.model.NoteDto
 import com.devansh.security.JwtConfig
 import com.devansh.utils.BaseResponse
@@ -68,7 +67,8 @@ class NoteServiceImpl : NoteService {
 
         dbQuery {
             notes.forEach { note ->
-                NoteTable.insert {
+                NoteTable.upsert {
+                    it[note_id] = note.id
                     it[user_id] = userId
                     it[title] = note.title
                     it[content] = note.content
