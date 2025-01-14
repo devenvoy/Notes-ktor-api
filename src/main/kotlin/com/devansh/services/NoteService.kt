@@ -68,7 +68,9 @@ class NoteServiceImpl : NoteService {
         dbQuery {
             notes.forEach { note ->
                 NoteTable.upsert {
-                    it[note_id] = note.id
+                    if (note.id.toInt() != -1) {
+                        it[note_id] = note.id
+                    }
                     it[user_id] = userId
                     it[title] = note.title
                     it[content] = note.content
