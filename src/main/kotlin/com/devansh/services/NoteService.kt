@@ -7,9 +7,12 @@ import com.devansh.security.JwtConfig
 import com.devansh.utils.BaseResponse
 import com.devansh.utils.getUnAuthorizedResponse
 import io.ktor.http.*
+import kotlinx.datetime.toLocalDate
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import java.time.LocalDateTime
+import java.time.format.DateTimeParseException
 
 interface NoteService {
     suspend fun getAllNotes(authToken: String): BaseResponse<Any>
@@ -65,11 +68,24 @@ class NoteServiceImpl : NoteService {
             return getUnAuthorizedResponse("Invalid Auth Token")
         }
 
+
         dbQuery {
             notes.forEach { note ->
+                val parsedModifiedAt = if (!note.modifiedAt.isNullOrBlank()) {
+                    try {
+                        LocalDateTime.parse(note.modifiedAt)
+                    } catch (e: DateTimeParseException) {
+                        null
+                    }
+                } else {
+                    null
+                }
                 NoteTable.upsert {
                     if (note.id.toInt() != -1) {
                         it[note_id] = note.id
+                        parsedModifiedAt?.let { parsedDate ->
+                            it[modifiedAt] = parsedDate
+                        }
                     }
                     it[user_id] = userId
                     it[title] = note.title
